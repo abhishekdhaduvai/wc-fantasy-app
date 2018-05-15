@@ -1,0 +1,104 @@
+/* Add your CSS here */
+
+.heading {
+  font-family: 'Gloria Hallelujah', cursive;
+  color: #fafafa
+}
+
+a {
+  text-decoration: none;
+  color: white;
+}
+
+a:visited, a div {
+  color: white;
+}
+
+.links {
+  display: flex;
+  align-items: center;
+  margin-top: 0.5em;
+}
+
+.drawer {
+  display: none;
+}
+
+.link {
+  width: 5em;
+  text-align: center;
+}
+
+.match-card {
+  position: relative;
+  margin: 1em;
+  margin-bottom: 0.5em;
+  box-shadow: 2px 2px 1rem 1px rgba(120, 120, 120, 0.2);
+  display: flex;
+  justify-content: center;
+}
+
+.vs {
+  align-self: center;
+  margin: 0.5em;
+}
+
+.team, .active1, .active2 {
+  display: flex;
+  align-items: center;
+  padding: 0.5em;
+  cursor: pointer;
+}
+
+.team1:hover, .active1 {
+  color: white;
+  background: linear-gradient(90deg, rgba(255,255,255,1) 0%, #264e88 70%);
+  border-radius: 2em;
+}
+
+.team2:hover, .active2 {
+  color: white;
+  background: linear-gradient(-90deg, rgba(255,255,255,1) 0%, #264e88 70%);
+  border-radius: 2em;
+}
+
+.team-name {
+  margin: 0.5em;
+  align-self: center;
+  width: 10em;
+  font-weight: bold;
+  font-size: larger;
+}
+
+.team1 {
+  text-align: right;
+}
+
+.logo {
+  width: 5em;
+  height: 3em;
+  background-size: 5em 3em;
+}
+
+.card-left {
+  position: absolute;
+  align-self: center;
+  left: 1em;
+}
+
+.card-left .row1 {
+  font-size: small;
+}
+
+@media only screen
+  and (min-device-width: 375px)
+  and (max-device-width: 812px)
+  and (orientation: portrait) {
+    .menu {
+      display: none;
+    }
+
+    .drawer {
+      display: initial;
+    }
+}
