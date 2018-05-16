@@ -7,46 +7,8 @@ import './schedule.css'
 
 class Schedule extends React.Component {
 
-  state = {
-    matches: []
-  }
-
-  componentDidMount() {
-    axios.get('/matches')
-    .then(res => {
-      this.setState({ matches: res.data[0] });
-    })
-    .catch(err => {
-      this.setState({ error: 'Error getting fixtures'});
-      console.log(err);
-    });
-  }
-
-  bet = (id, matchId, team, teamName) => {
-    const { matches } = this.state;
-    this.setState(state => {
-      return {
-        ...state,
-        matches: matches.map((match, index) => {
-          return index === id ? {
-            ...match,
-            bet: match.bet === team ? '' : team
-          } : match
-        })
-      }
-    });
-
-    axios.post('/bet', {
-      matchId,
-      team,
-      teamName
-    })
-    .catch('error placing bet');
-  }
-
   render(){
-    const { matches } = this.state;
-    const { profile, bet } = this.props;
+    const { matches, profile, updateBet } = this.props;
     return (
       <div style={styles.container}>
         {matches.map((match, i) => (
@@ -59,7 +21,7 @@ class Schedule extends React.Component {
                 team1 = {match.homeTeamName}
                 team2 = {match.awayTeamName}
                 bet = {match.bet}
-                newBet = {this.bet}
+                newBet = {updateBet}
                 profile = {profile}
               />
             }

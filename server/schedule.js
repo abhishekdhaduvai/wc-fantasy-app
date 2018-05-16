@@ -10,18 +10,21 @@ if (node_env === 'development') {
 const api = devConfig ? devConfig.api : process.env.API;
 
 const getMatches = (matches) => {
+  return new Promise((resolve, reject) => {
+    const headers = {
+      'X-Auth-Token': credentials.apiKey
+    }
 
-  const headers = {
-    'X-Auth-Token': credentials.apiKey
-  }
-
-  axios.get(api, {headers})
-  .then(res => {
-    matches.push(res.data.fixtures);
-  })
-  .catch(err => {
-    console.log('ERROR GETTING FIXTURES');
-    console.log(err);
+    axios.get(api, {headers})
+    .then(res => {
+      matches.push(res.data.fixtures);
+      return resolve(true);
+    })
+    .catch(err => {
+      console.log('ERROR GETTING FIXTURES');
+      console.log(err);
+      return resolve(false);
+    });
   });
 }
 

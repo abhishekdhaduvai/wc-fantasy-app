@@ -15,6 +15,11 @@ AWS.config.update({
 const dynamodb = new AWS.DynamoDB({apiVersion: '2012-08-10'});
 
 const users = {};
+let getNew = true;
+
+const shouldGetNewUsers = () => {
+  return getNew;
+}
 
 const getUsers = () => {
   const params = {
@@ -25,6 +30,7 @@ const getUsers = () => {
   dynamodb.scan(params, (err, data) => {
     if(err) console.log(err);
     else {
+      console.log('Got new Users');
       data.Items.forEach(item => {
         users[item.id.S] = {};
         users[item.id.S].id = item.id.S;
@@ -47,6 +53,7 @@ const getUsers = () => {
           } catch(e) {}
         });
       });
+      getNew = false;
     }
   });
 }
@@ -94,8 +101,6 @@ const addBet = (userId, matchId, team, teamName) => {
   } else {
     if(users[userId].bets[matchId].team === team) {
       delete users[userId].bets[matchId];
-      // users[userId].bets[matchId].team = '';
-      // users[userId].bets[matchId].teamName = '';
     }
     else {
       users[userId].bets[matchId].team = team;
@@ -132,11 +137,11 @@ const findOrCreate = (user) => {
   }
 }
 
-getUsers();
-
 module.exports = {
   findOrCreate,
   addBet,
   users,
-  reset
+  reset,
+  getUsers,
+  shouldGetNewUsers,
 }

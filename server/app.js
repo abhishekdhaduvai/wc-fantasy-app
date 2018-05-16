@@ -11,6 +11,7 @@ const redisConfig = require('./redisConfig');
 const credentials = require('./credentials.js');
 const schedule = require('./schedule');
 const users = require('./users');
+const table = require('./table');
 var invitedUsers = require('./invitedUsers');
 
 // Add oauth2 passport strategies here
@@ -81,6 +82,8 @@ function(request, accessToken, refreshToken, profile, done) {
 
 	// TODO: Invoke he findOrCreate function here
 	if(invitedUsers.indexOf(profile.email) !== -1) {
+		pointstable = [];
+		table.getTable(users.users, pointstable);
 		users.findOrCreate(user);
 	}
 	return done(null, user);
@@ -117,19 +120,35 @@ app.use('/',
 );
 
 var matches = [];
+var pointstable = [];
 
-/**************************** Set up ends here. Add your endpoints below *************************************/
-
-/*
-app.get('/users', (req, res) => {
-  res.send(users);
-});
-*/
+/************************** Set up ends here. Add your endpoints below *********************************/
 
 const start = () => {
-	matches = [];
-	schedule.getMatches(matches);
+	let temp = [];
+
+	if(users.shouldGetNewUsers()) {
+		users.getUsers();
+	}
+	schedule.getMatches(temp).then(() => {
+		if(JSON.stringify(matches) !== JSON.stringify(temp)) {
+			matches = temp;
+			pointstable = [];
+			table.calculatePoints(users.users, matches);
+			table.getTable(users.users, pointstable);
+		}
+	})
+	.catch(err => {
+		console.log('err ', err);
+	});
+
+	// Current Points Table
+	console.log(pointstable);
 }
+
+setInterval(() => {
+	start();
+}, 60*60*1000); //Update the points table every hour
 
 start();
 
@@ -140,10 +159,14 @@ app.get('/matches', (req, res) => {
 app.post('/bet', (req, res) => {
 	users.addBet(req.user.id, req.body.matchId, req.body.team, req.body.teamName);
 	res.status(200).send();
-})
+});
 
 app.get('/me', (req, res) => {
 	res.send(users.users[req.user.id]);
+});
+
+app.get('/table', (req, res) => {
+	res.send(pointstable);
 });
 
 ////// error handlers //////

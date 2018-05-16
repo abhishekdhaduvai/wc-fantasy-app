@@ -3,7 +3,7 @@ import moment from 'moment';
 import 'countdown';
 import 'moment-countdown';
 import '../teams.css';
-import '../index.css';
+import '../css/match-card.css';
 
 class MatchCard extends React.Component {
   render() {

@@ -1,0 +1,150 @@
+.container {
+  flex: 1;
+  position: absolute;
+  top: 8em;
+  left: 1em;
+  padding: 0.5em;
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 5px;
+}
+
+table {
+  border-collapse: collapse;
+  background: rgba(0, 0, 0, 0);
+  color: white;
+}
+
+tbody {
+  max-height: 450px;
+  overflow: scroll;
+}
+
+tr {
+  border-bottom: 1px solid grey;
+}
+
+tr:last-child {
+  border-bottom: none;
+}
+
+td {
+  padding: 0.5em;
+  box-sizing: border-box
+}
+
+th {
+  padding: 1em 0em;
+  color: orange;
+  box-sizing: border-box;
+}
+
+th.name {
+  padding-left: 0.5em;
+}
+
+th.form {
+  width: 150px;
+  text-align: left;
+  padding-left: 0.5em;
+}
+
+th.id, td.id {
+  width: 62px;
+  text-align: center;
+}
+
+th.name, td.name {
+  width: 230px;
+}
+
+th.general, td.general {
+  width: 57px;
+  text-align: center;
+}
+
+thead > tr, tbody {
+  display: block;
+}
+
+td.form {
+  display: flex;
+}
+
+.form.W {
+  box-sizing: border-box;
+  width: 20px;
+  text-align: center;
+  background: #4caf50;
+  margin: 1px;
+  padding: 3px;
+  font-size: small;
+  border-radius: 5px;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.form.L {
+  box-sizing: border-box;
+  width: 20px;
+  text-align: center;
+  background: #F44336;
+  margin: 1px;
+  padding: 3px;
+  font-size: small;
+  border-radius: 5px;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.form.D {
+  box-sizing: border-box;
+  width: 20px;
+  text-align: center;
+  background: #9E9E9E;
+  margin: 1px;
+  padding: 3px;
+  font-size: small;
+  border-radius: 5px;
+  font-family: 'Montserrat', sans-serif;
+}
+
+@media only screen
+  and (min-device-width: 375px)
+  and (max-device-width: 812px)
+  and (orientation: portrait) {
+    .container {
+      width: 80%;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      margin: auto;
+      overflow: scroll;
+      margin-bottom: 3em;
+    }
+
+    table {
+      width: 100%;
+    }
+
+    tbody {
+      max-height: 100%;
+    }
+
+    th.id, td.id {
+      width: 75px;
+      text-align: center;
+    }
+
+    th.name, td.name {
+      width: 230px;
+    }
+
+    th.general, td.general {
+      width: 100px;
+      text-align: center;
+    }
+
+    th.form {
+      width: 150px;
+      text-align: left;
+      padding-left: 0.5em;
+    }
+}

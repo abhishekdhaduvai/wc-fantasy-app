@@ -27,7 +27,7 @@ export default class DrawerMenu extends React.Component {
               <NavigationClose onClick={this.handleToggle}/>
             </IconButton>
           }
-          style={{ backgroundColor: '#2196F3' }}
+          style={{ backgroundColor: 'rgb(58, 94, 147)' }}
         />
 
         <Drawer

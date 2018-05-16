@@ -18,7 +18,7 @@ const Menu = () => (
     title={<div className='heading'>World Cup Fantasy League</div>}
     iconElementLeft={<div></div>}
     iconElementRight={<Links />}
-    style={{ backgroundColor: '#2196F3' }}
+    style={{ backgroundColor: 'rgb(58, 94, 147)' }}
   />
 );
 

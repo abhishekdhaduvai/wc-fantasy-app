@@ -11,11 +11,15 @@ import Schedule from './Screens/Schedule/Schedule';
 class App extends Component {
 
   state = {
-    profile: {}
+    profile: {},
+    matches: [],
+    table: []
   }
 
   componentDidMount() {
+    this.getMatches();
     this.getProfile();
+    this.getTable();
   }
 
   getProfile = () => {
@@ -24,7 +28,29 @@ class App extends Component {
       this.setState({profile: res.data});
     })
     .catch(err => {
-      console.log('Could not get user info');
+      this.setState({ error: 'Error getting user info'});
+      console.log(err);
+    })
+  }
+
+  getMatches = () => {
+    axios.get('/matches')
+    .then(res => {
+      this.setState({ matches: res.data[0] });
+    })
+    .catch(err => {
+      this.setState({ error: 'Error getting fixtures'});
+      console.log(err);
+    });
+  }
+
+  getTable = () => {
+    axios.get('/table')
+    .then(res => {
+      this.setState({ table: res.data });
+    })
+    .catch(err => {
+      this.setState({ error: 'Error getting the points table'});
       console.log(err);
     })
   }
@@ -48,16 +74,13 @@ class App extends Component {
       team,
       teamName
     })
-    .then(res => {
-      // this.getProfile();
-    })
     .catch(err => {
       console.log('error placing bet');
     });
   }
 
   render() {
-    const { profile } = this.state;
+    const { profile, matches, table } = this.state;
     return (
       <div style={styles.container}>
         <div className="menu">
@@ -67,9 +90,14 @@ class App extends Component {
           <DrawerMenu />
         </div>
         <Switch>
-          <Route exact path="/dashboard" component={Dashboard} />
+          <Route exact path="/dashboard" render={() => {
+            return <Dashboard table={table} />
+          }}/>
           <Route exact path="/schedule" render={() => {
-            return <Schedule profile={profile} updateBet={this.bet} />
+            return <Schedule
+              matches={matches}
+              profile={profile}
+              updateBet={this.bet} />
           }}/>
           <Route path="/" render={() => {
             return <Redirect to="/dashboard" />
