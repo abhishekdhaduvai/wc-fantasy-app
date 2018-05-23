@@ -15,7 +15,7 @@ AWS.config.update({
 const dynamodb = new AWS.DynamoDB({apiVersion: '2012-08-10'});
 
 const users = {};
-let getNew = true;
+var getNew = true;
 
 const shouldGetNewUsers = () => {
   return getNew;
@@ -27,34 +27,38 @@ const getUsers = () => {
     ReturnConsumedCapacity: 'TOTAL'
   };
 
-  dynamodb.scan(params, (err, data) => {
-    if(err) console.log(err);
-    else {
-      console.log('Got new Users');
-      data.Items.forEach(item => {
-        users[item.id.S] = {};
-        users[item.id.S].id = item.id.S;
-        users[item.id.S].email = item.email.S;
-        users[item.id.S].name = item.name.S;
-        users[item.id.S].points = Number(item.points.N);
-        users[item.id.S].bets = {};
-        users[item.id.S].form = [];
-        users[item.id.S].wins = 0;
+  return new Promise((resolve, reject) => {
+    dynamodb.scan(params, (err, data) => {
+      if(err) {
+        return reject(err);
+      }
+      else {
+        data.Items.forEach(item => {
+          users[item.id.S] = {};
+          users[item.id.S].id = item.id.S;
+          users[item.id.S].email = item.email.S;
+          users[item.id.S].name = item.name.S;
+          users[item.id.S].points = Number(item.points.N);
+          users[item.id.S].bets = {};
+          users[item.id.S].form = [];
+          users[item.id.S].wins = 0;
 
-        // Temporary Object to break down DynamoDB item to JSOn
-        let bets = item.bets.M;
-        Object.keys(bets).forEach(key => {
-          users[item.id.S].bets[key] = {};
-          users[item.id.S].bets[key] = bets[key].M;
-          users[item.id.S].bets[key].team = bets[key].M.team.S;
-          users[item.id.S].bets[key].teamName = bets[key].M.teamName.S;
-          try {
-            users[item.id.S].bets[key].result = bets[key].M.result.S;
-          } catch(e) {}
+          // Temporary Object to break down DynamoDB item to JSOn
+          var bets = item.bets.M;
+          Object.keys(bets).forEach(key => {
+            users[item.id.S].bets[key] = {};
+            users[item.id.S].bets[key] = bets[key].M;
+            users[item.id.S].bets[key].team = bets[key].M.team.S;
+            users[item.id.S].bets[key].teamName = bets[key].M.teamName.S;
+            try {
+              users[item.id.S].bets[key].result = bets[key].M.result.S;
+            } catch(e) {}
+          });
         });
-      });
-      getNew = false;
-    }
+        getNew = false;
+        resolve(true);
+      }
+    });
   });
 }
 
@@ -64,7 +68,7 @@ const updateUserDB = (userId) => {
     ReturnConsumedCapacity: 'TOTAL',
   };
 
-  let Item = {
+  var Item = {
     id: {S: users[userId].id},
     email: {S: users[userId].email},
     name: {S: users[userId].name || users[userId].email},

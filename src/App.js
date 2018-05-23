@@ -7,6 +7,7 @@ import DrawerMenu from './components/DrawerMenu';
 
 import Dashboard from './Screens/Dashboard/Dashboard';
 import Schedule from './Screens/Schedule/Schedule';
+import Results from './Screens/Results/Results';
 
 class App extends Component {
 
@@ -99,6 +100,8 @@ class App extends Component {
               profile={profile}
               updateBet={this.bet} />
           }}/>
+          <Route exact path="/user/:id" component={Results} />
+          }} />
           <Route path="/" render={() => {
             return <Redirect to="/dashboard" />
           }}/>

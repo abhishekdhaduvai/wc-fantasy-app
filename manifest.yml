@@ -5,6 +5,9 @@ applications:
     buildpack: nodejs_buildpack
     command: node server/app.js
     path: dist
+services:
+    - redis
 env:
     node_env: production
     API: http://api.football-data.org/v1/competitions/467/fixtures
+    usersTable: WCFantasyUsers

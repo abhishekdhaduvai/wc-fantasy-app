@@ -12,7 +12,7 @@ class Schedule extends React.Component {
     return (
       <div style={styles.container}>
         {matches.map((match, i) => (
-          <div key={i}>
+          <div key={i} className='match-card-container'>
             {match.homeTeamName.length > 0 &&
               <MatchCard
                 id = {i}

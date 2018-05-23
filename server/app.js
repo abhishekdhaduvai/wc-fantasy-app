@@ -67,7 +67,7 @@ passport.deserializeUser(function(user, done) {
 passport.use(new GoogleStrategy({
 	clientID: credentials.google.clientId,
 	clientSecret: credentials.google.secret,
-	callbackURL: 	devConfig ? devConfig.callback : 'https://fifa-wc-app.run.aws-usw02-pr.ice.predix.io/',
+	callbackURL: 	devConfig ? devConfig.callback : 'https://wc-fantasy-app.run.aws-usw02-pr.ice.predix.io/auth/google/callback',
 	passReqToCallback: true,
 	proxy: true
 },
@@ -82,9 +82,9 @@ function(request, accessToken, refreshToken, profile, done) {
 
 	// TODO: Invoke he findOrCreate function here
 	if(invitedUsers.indexOf(profile.email) !== -1) {
+		users.findOrCreate(user);
 		pointstable = [];
 		table.getTable(users.users, pointstable);
-		users.findOrCreate(user);
 	}
 	return done(null, user);
 }
@@ -107,8 +107,10 @@ app.get('/auth/google/callback',
 
 
 const isAuthenticated = (req, res, next) => {
-  if(req.isAuthenticated())
-    next()
+  if(req.isAuthenticated()) {
+		if(invitedUsers.indexOf(req.user.email) !== -1)
+			next();
+	}
   else
     res.redirect('/auth/google');
 }
@@ -125,30 +127,42 @@ var pointstable = [];
 /************************** Set up ends here. Add your endpoints below *********************************/
 
 const start = () => {
-	let temp = [];
-
+	console.log('Updating the Points Table...');
+	var temp = [];
 	if(users.shouldGetNewUsers()) {
-		users.getUsers();
+		console.log('Getting new Users')
+		users.getUsers()
+		.then(() => {
+			schedule.getMatches(temp).then(() => {
+				if(JSON.stringify(matches) !== JSON.stringify(temp)) {
+					matches = temp;
+					pointstable = [];
+					table.calculatePoints(users.users, matches);
+					table.getTable(users.users, pointstable);
+				}
+			})
+			.catch(err => {
+				console.log('err ', err);
+			});
+		})
+	} else {
+		schedule.getMatches(temp).then(() => {
+			if(JSON.stringify(matches) !== JSON.stringify(temp)) {
+				matches = temp;
+				pointstable = [];
+				table.calculatePoints(users.users, matches);
+				table.getTable(users.users, pointstable);
+			}
+		})
+		.catch(err => {
+			console.log('err ', err);
+		});
 	}
-	schedule.getMatches(temp).then(() => {
-		if(JSON.stringify(matches) !== JSON.stringify(temp)) {
-			matches = temp;
-			pointstable = [];
-			table.calculatePoints(users.users, matches);
-			table.getTable(users.users, pointstable);
-		}
-	})
-	.catch(err => {
-		console.log('err ', err);
-	});
-
-	// Current Points Table
-	console.log(pointstable);
 }
 
 setInterval(() => {
 	start();
-}, 60*60*1000); //Update the points table every hour
+}, 10*60*1000); //Update the points table every 10 mins
 
 start();
 
@@ -165,8 +179,34 @@ app.get('/me', (req, res) => {
 	res.send(users.users[req.user.id]);
 });
 
+app.get('/profile', (req, res) => {
+	if(req.user.id === req.query.id) {
+		var temp = {
+			self: true,
+			bets: users.users[req.query.id].bets,
+			email: users.users[req.query.id].email,
+			form: users.users[req.query.id].form,
+			id: users.users[req.query.id].id,
+			name: users.users[req.query.id].name,
+			points: users.users[req.query.id].points,
+			wins: users.users[req.query.id].wins
+		}
+	}
+	res.send(temp);
+})
+
 app.get('/table', (req, res) => {
 	res.send(pointstable);
+});
+
+app.get('/admin/update-users', (req, res) => {
+	users.getUsers();
+	res.send('Users Updated....')
+});
+
+app.get('/admin/invited-users', (req, res) => {
+	invitedUsers = require('./invitedUsers');
+	res.send('Users Updated....')
 });
 
 ////// error handlers //////

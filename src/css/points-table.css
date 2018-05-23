@@ -33,19 +33,14 @@ td {
 }
 
 th {
-  padding: 1em 0em;
+  padding: 1em 0.5em;
   color: orange;
   box-sizing: border-box;
-}
-
-th.name {
-  padding-left: 0.5em;
 }
 
 th.form {
   width: 150px;
   text-align: left;
-  padding-left: 0.5em;
 }
 
 th.id, td.id {
@@ -62,12 +57,12 @@ th.general, td.general {
   text-align: center;
 }
 
-thead > tr, tbody {
-  display: block;
-}
-
 td.form {
   display: flex;
+}
+
+td.name {
+  cursor: pointer;
 }
 
 .form.W {
@@ -118,32 +113,35 @@ td.form {
       margin: auto;
       overflow: scroll;
       margin-bottom: 3em;
+      top: 6em;
     }
 
     table {
       width: 100%;
+      font-size: small;
     }
 
     tbody {
       max-height: 100%;
+      display: asdfdaf;
     }
 
     th.id, td.id {
-      width: 75px;
-      text-align: center;
+      width: initial;
     }
 
     th.name, td.name {
-      width: 230px;
+      width: initial;
+      white-space: nowrap;
     }
 
     th.general, td.general {
-      width: 100px;
+      width: initial;
       text-align: center;
     }
 
     th.form {
-      width: 150px;
+      width: initial;
       text-align: left;
       padding-left: 0.5em;
     }

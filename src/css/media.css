@@ -1,0 +1,17 @@
+/* Smartphones (portrait and landscape) ----------- */
+@media only screen
+  and (min-device-width : 375px)
+  and (max-device-width : 812px) {
+
+    .match-card-container {
+      overflow: hidden;
+    }
+
+    .match-card {
+      font-size: 0.75em;
+    }
+
+    .card-left, .card-right, .heading {
+      display: none;
+    }
+}
