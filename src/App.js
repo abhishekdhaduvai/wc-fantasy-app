@@ -85,7 +85,7 @@ class App extends Component {
     return (
       <div style={styles.container}>
         <div className="menu">
-          <Menu />
+          <Menu profile={profile} />
         </div>
         <div className="drawer">
           <DrawerMenu />
