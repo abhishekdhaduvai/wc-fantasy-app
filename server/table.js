@@ -25,7 +25,9 @@ const calculatePoints = (users, matches) => {
 
           // User gets points for a draw
           if(winner === null) {
-            users[id].bets[matchId].result = 'draw';
+            if(users[id].bets[matchId].team === 'draw') {
+              users[id].bets[matchId].result = 'bigWin';
+            }
           }
           // User gets points for the win
           else if(users[id].bets[matchId].team === winner) {
@@ -33,7 +35,12 @@ const calculatePoints = (users, matches) => {
           }
           // User loses points for the loss
           else {
-            users[id].bets[matchId].result = 'loss';
+            if(users[id].bets[matchId].team === 'draw') {
+              users[id].bets[matchId].result = 'bigLoss';
+            }
+            else {
+              users[id].bets[matchId].result = 'loss';
+            }
           }
         }
       });
@@ -64,15 +71,19 @@ const getTable = (users, table) => {
         temp.losses += 1;
         temp.form.push('L');
       }
-      else if(users[id].bets[bet].result === 'draw') {
-        temp.points += 1;
-        temp.draws += 1;
-        temp.form.push('D');
+      else if(users[id].bets[bet].result === 'bigWin') {
+        temp.points += 10;
+        temp.wins += 1;
+        temp.form.push('W');
+      }
+      else if(users[id].bets[bet].result === 'bigLoss') {
+        temp.points -= 6;
+        temp.losses += 1;
+        temp.form.push('L');
       }
     });
 
     table.push(temp);
-    console.log('TABLE\n', table);
 
   });
 }

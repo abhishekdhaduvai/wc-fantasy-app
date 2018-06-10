@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 
-// import ResultMatchCard from '../web-components/ResultMatchCard';
+import ResultMatchCard from '../../components/ResultMatchCard';
 // import MatchInProgress from '../web-components/MatchInProgress';
 
 class Results extends React.Component {
@@ -12,14 +12,14 @@ class Results extends React.Component {
   }
 
   componentDidMount() {
-    // this.getMatches();
-    this.getUser();
+    this.getMatches();
   }
 
   getMatches = () => {
-    axios.get('/finished-matches')
+    axios.get('/matches')
     .then(res => {
-      this.setState({ matches: res.data.reverse() });
+      this.setState({ matches: res.data[0].reverse() });
+      this.getUser();
     })
     .catch(err => {
       console.log('err ', err);
@@ -42,28 +42,23 @@ class Results extends React.Component {
 
   render(){
     const { matches, user } = this.state;
-    console.log(user);
+    console.log('state ', this.state);
     return (
       <div style={styles.container}>
-        {user !== undefined && matches.map(match => (
-          <div key={match.matchId.id}>
-            {match.matchStatus ?
+        {user !== undefined && matches.map((match, i) => (
+          <div key={i}>
+            {match.result.goalsHomeTeam !== null &&
               <ResultMatchCard
+                matchId = {''+match.matchday+match.homeTeamName+match.awayTeamName}
                 match={match}
-                user={user}
-              /> :
-              <MatchInProgress
-                match={match}
+                bet = {match.bet}
+                team1 = {match.homeTeamName}
+                team2 = {match.awayTeamName}
                 user={user}
               />
             }
           </div>
         ))}
-        {matches.length === 0 &&
-          <p style={styles.msg}>
-            There's nothing here yet
-          </p>
-        }
       </div>
     )
   }

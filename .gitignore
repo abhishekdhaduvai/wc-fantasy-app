@@ -2,3 +2,4 @@ build/
 node_modules/
 server/credentials.js
 dist/
+package-lock.json

@@ -67,7 +67,7 @@ passport.deserializeUser(function(user, done) {
 passport.use(new GoogleStrategy({
 	clientID: credentials.google.clientId,
 	clientSecret: credentials.google.secret,
-	callbackURL: 	devConfig ? devConfig.callback : 'https://wc-fantasy-app.run.aws-usw02-pr.ice.predix.io/auth/google/callback',
+	callbackURL: 	devConfig ? devConfig.callback : 'https://wc-fantasy.run.aws-usw02-pr.ice.predix.io/auth/google/callback',
 	passReqToCallback: true,
 	proxy: true
 },
@@ -122,6 +122,7 @@ app.use('/',
 );
 
 var matches = [];
+var finishedMatches = [];
 var pointstable = [];
 
 /************************** Set up ends here. Add your endpoints below *********************************/
@@ -130,7 +131,7 @@ const start = () => {
 	console.log('Updating the Points Table...');
 	var temp = [];
 	if(users.shouldGetNewUsers()) {
-		console.log('Getting new Users')
+		console.log('Getting new Users');
 		users.getUsers()
 		.then(() => {
 			schedule.getMatches(temp).then(() => {

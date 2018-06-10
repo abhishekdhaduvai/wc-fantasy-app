@@ -3,8 +3,39 @@
   margin: 1em;
   margin-bottom: 0.5em;
   box-shadow: 2px 2px 1rem 1px rgba(120, 120, 120, 0.2);
+  /* display: flex; */
+  justify-content: center;
+}
+
+.row-1 {
   display: flex;
   justify-content: center;
+}
+
+.row2{
+  font-size: larger;
+}
+
+.draw-btn {
+  padding: 0.5em;
+  width: 5em;
+  text-align: center;
+  font-size: larger;
+  font-weight: bold;
+  cursor: pointer;
+  margin: 0.5em auto 0.5em auto;
+}
+
+.draw-btn:hover {
+  background: #264e88;
+  color: white;
+  border-radius: 2em;
+}
+
+.draw-bet {
+  background: #264e88;
+  color: white;
+  border-radius: 2em;
 }
 
 .vs {
@@ -39,7 +70,7 @@
   font-size: larger;
 }
 
-.team1 {
+.team1, .team-left {
   text-align: right;
 }
 
@@ -57,4 +88,41 @@
 
 .card-left .row1 {
   font-size: small;
+}
+
+.winner {
+  background: #4caf50;
+  border-radius: 2em;
+  color: white;
+}
+
+.loser {
+  background: #F44336;
+  border-radius: 2em;
+  color: white;
+}
+
+.score {
+  font-size: larger;
+  font-weight: bold;
+}
+
+.card-right {
+  position: absolute;
+  right: 3em;
+  align-self: center;
+  text-align: center;
+}
+
+.card-right .points {
+  font-weight: bold;
+  font-size: x-large;
+}
+
+.points.loss {
+  color: #F44336;
+}
+
+.points.win {
+  color: #4caf50;
 }
