@@ -101,7 +101,7 @@ app.get('/auth/google',
 
 app.get('/auth/google/callback',
 	passport.authenticate('google', {
-		successRedirect: '/',
+		successRedirect: '/home',
 		failureRedirect: '/auth/google',
 }));
 
@@ -117,8 +117,16 @@ const isAuthenticated = (req, res, next) => {
 
 //Use this route to make the entire app secure.  This forces login for any path in the entire app.
 app.use('/',
+	express.static(path.join(__dirname, '../'))
+);
+
+app.use('/rules',
+	express.static(path.join(__dirname, '../rules.html'))
+);
+
+app.use('/home',
 	isAuthenticated,
-	express.static(path.join(__dirname, process.env['base-dir'] ? process.env['base-dir'] : '../'))
+	express.static(path.join(__dirname, '../home.html'))
 );
 
 var matches = [];
@@ -181,19 +189,7 @@ app.get('/me', (req, res) => {
 });
 
 app.get('/profile', (req, res) => {
-	if(req.user.id === req.query.id) {
-		var temp = {
-			self: true,
-			bets: users.users[req.query.id].bets,
-			email: users.users[req.query.id].email,
-			form: users.users[req.query.id].form,
-			id: users.users[req.query.id].id,
-			name: users.users[req.query.id].name,
-			points: users.users[req.query.id].points,
-			wins: users.users[req.query.id].wins
-		}
-	}
-	res.send(temp);
+	res.send(users.users[req.query.id]);
 })
 
 app.get('/table', (req, res) => {

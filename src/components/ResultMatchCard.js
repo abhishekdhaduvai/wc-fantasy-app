@@ -10,7 +10,7 @@ class ResultMatchCard extends React.Component {
       bet,
       user } = this.props;
 
-    var userBet = '';
+    var userBet = 'draw';
     var winner = '';
 
     if(bet === undefined) {
@@ -23,27 +23,26 @@ class ResultMatchCard extends React.Component {
 
     if(match.result.goalsHomeTeam > match.result.goalsAwayTeam)
       winner = 'team1';
-    else if(match.result.goalsHomeTeam > match.result.goalsAwayTeam)
+    else if(match.result.goalsHomeTeam < match.result.goalsAwayTeam)
       winner = 'team2';
     else
       winner = 'draw';
 
+    // console.log(`${team1}vs${team2} winner = ${winner} bet = ${userBet}`)
     return (
       <div className="match-card">
         <div className="row-1">
-          <div className="card-left">
-            <div className='row2'>You bet on <strong>{userBet === 'team1' ? team1 : userBet === 'team2' ? team2 : 'a draw'}</strong></div>
+          <div className="card-left no-padding">
+            <div className='row2'>Bet on <strong>{userBet === 'team1' ? team1 : userBet === 'team2' ? team2 : 'a draw'}</strong></div>
           </div>
 
-          {userBet !== '' &&
-            <div className='card-right'>
-              <div>Points</div>
-              <div className={userBet === winner ? 'win points' : 'loss points' }>
-                {userBet === winner ?
-                  (userBet === 'draw' ? <span>+10</span> : +5) : (userBet === 'draw'? <span>-6</span>:-3)}
-              </div>
+          <div className='card-right'>
+            <div>Points</div>
+            <div className={userBet === winner ? 'win points' : 'loss points' }>
+              {userBet === winner ?
+                (userBet === 'draw' ? <span>+10</span> : <span>+5</span>) : (userBet === 'draw'? <span>-6</span>:-3)}
             </div>
-          }
+          </div>
 
           <div
             className={userBet === 'team1' ? (userBet === winner ? 'winner team' : 'loser team'): 'team'}>

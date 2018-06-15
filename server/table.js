@@ -20,13 +20,16 @@ const calculatePoints = (users, matches) => {
             winner = 'team2';
           }
           else {
-            winner = null;
+            winner = 'draw';
           }
 
           // User gets points for a draw
-          if(winner === null) {
+          if(winner === 'draw') {
             if(users[id].bets[matchId].team === 'draw') {
               users[id].bets[matchId].result = 'bigWin';
+            }
+            else {
+              users[id].bets[matchId].result = 'loss';
             }
           }
           // User gets points for the win
@@ -54,17 +57,18 @@ const getTable = (users, table) => {
     var temp = {};
     temp.id = users[id].id;
     temp.name = users[id].name || users[id].email;
-    temp.points = 0;
+    temp.points = 100;
     temp.wins = 0;
     temp.losses = 0;
     temp.draws = 0;
     temp.form = [];
 
     Object.keys(users[id].bets).forEach(bet => {
+
       if(users[id].bets[bet].result === 'win') {
         temp.points += 5;
         temp.wins += 1;
-        temp.form.push('W')
+        temp.form.push('W');
       }
       else if(users[id].bets[bet].result === 'loss') {
         temp.points -= 3;

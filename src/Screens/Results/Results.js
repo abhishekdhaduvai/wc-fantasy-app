@@ -42,7 +42,7 @@ class Results extends React.Component {
 
   render(){
     const { matches, user } = this.state;
-    console.log('state ', this.state);
+
     return (
       <div style={styles.container}>
         {user !== undefined && matches.map((match, i) => (

@@ -84,10 +84,7 @@
   position: absolute;
   align-self: center;
   left: 1em;
-}
-
-.card-left .row1 {
-  font-size: small;
+  padding-top: 3em;
 }
 
 .winner {
@@ -125,4 +122,8 @@
 
 .points.win {
   color: #4caf50;
+}
+
+.no-padding {
+  padding: 0;
 }

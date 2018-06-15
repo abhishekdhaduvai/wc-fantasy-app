@@ -7,19 +7,109 @@
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Gloria+Hallelujah" rel="stylesheet">
 
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      width: 100vw;
+      overflow: hidden;
+    }
+    .content-hero__img {
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+    }
+    .loginBtn {
+      box-sizing: border-box;
+      position: relative;
+      width: 13em;
+      margin: 0.2em;
+      padding: 0 15px 0 46px;
+      border: none;
+      text-align: left;
+      line-height: 34px;
+      white-space: nowrap;
+      border-radius: 0.2em;
+      font-size: 16px;
+      color: #FFF;
+      font-family: 'Source Sans Pro';
+      cursor: pointer;
+    }
+    .rules {
+      width: 13em;
+      background: white;
+      color: black;
+      padding: 0 15px 0 15px;
+      text-align: center;
+    }
+    .loginBtn:before {
+      content: "";
+      box-sizing: border-box;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 34px;
+      height: 100%;
+    }
+    .loginBtn:focus {
+      outline: none;
+    }
+    .loginBtn:active {
+      box-shadow: inset 0 0 0 32px rgba(0,0,0,0.1);
+    }
+    /* Google */
+    .loginBtn--google {
+      /*font-family: "Roboto", Roboto, arial, sans-serif;*/
+      background-color: #5B7BD5;
+    }
+    .loginBtn--google:before {
+      border-right: #5B7BD5 1px solid;
+      background: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/14082/icon_google.png') 6px 6px no-repeat;
+    }
+    .loginBtn--google:hover,
+    .loginBtn--google:focus {
+      background: #5B7BD5;
+    }
+    a {
+      text-decoration: none;
+    }
+
+    .content {
+      position: relative;
+      bottom: 20em;
+    }
+
+    h1 {
+      color: white;
+      font-size: 5em;
+      font-family: 'Source Sans Pro'
+    }
+
+    .container {
+      text-align: center;
+      margin: auto;
+      padding: 4em;
+      border-radius: 2em;
+    }
+
+  </style>
 </head>
 <body>
-  <div id="root"></div>
-  <script src="build/bundle.js"></script>
-  <!-- Global site tag (gtag.js) - Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-93824602-3"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'UA-93824602-3');
-  </script>
-
+  <img
+    class="content-hero__img" src="https://league-mp7static.mlsdigital.net/styles/image_landscape/s3/images/DL-WCRussia2018-1280x553.jpg?DChqcutyM2Cj5kph.Zg1SvgsSPnGbasr&itok=EBnGH78e&c=08ce797bb0b111f4ccfb5e64e152df15" />
+  <div class="content">
+    <div class="container">
+      <a href="/home">
+        <button class="loginBtn loginBtn--google" href="/home">
+          Login with Google
+        </button>
+      </a>
+      <a href="/rules">
+        <button class="loginBtn rules" href="/rules" target="_blank">
+          Rules
+        </button>
+      </a>
+    </div>
+  </div>
 </body>
 </html>

@@ -22,7 +22,7 @@ class PointsTable extends React.Component {
               <th className='general'>Won</th>
               <th className='general'>Lost</th>
               <th className='general'>Pts</th>
-              <th className='form'>Last 5 Games</th>
+              {/* <th className='form'>Last 5 Games</th> */}
             </tr>
           </thead>
           <tbody>
@@ -34,11 +34,11 @@ class PointsTable extends React.Component {
                 <td className='general'>{player.wins}</td>
                 <td className='general'>{player.losses}</td>
                 <td className='general'>{player.points}</td>
-                <td className='form'>
+                {/* <td className='form'>
                   {player.form.slice(player.form.length > 5 ? player.form.length-5 : 0).map((res, i) => (
                     <div key={i} className={'form '+res}>{res}</div>
                   ))}
-                </td>
+                </td> */}
               </tr>
             ))}
           </tbody>
