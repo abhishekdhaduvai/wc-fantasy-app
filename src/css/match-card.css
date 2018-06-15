@@ -5,6 +5,7 @@
   box-shadow: 2px 2px 1rem 1px rgba(120, 120, 120, 0.2);
   /* display: flex; */
   justify-content: center;
+  overflow: hidden;
 }
 
 .row-1 {
@@ -40,7 +41,7 @@
 
 .vs {
   align-self: center;
-  margin: 0.5em;
+  padding: 1em;
 }
 
 .team, .active1, .active2 {

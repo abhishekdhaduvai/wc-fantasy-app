@@ -11,7 +11,7 @@ const calculatePoints = (users, matches) => {
         var winner;
         var matchId = ''+match.matchday+match.homeTeamName+match.awayTeamName;
 
-        if(users[id].bets && users[id].bets[matchId]) {
+        // if(users[id].bets && users[id].bets[matchId]) {
 
           if(match.result.goalsHomeTeam > match.result.goalsAwayTeam) {
             winner = 'team1';
@@ -23,29 +23,39 @@ const calculatePoints = (users, matches) => {
             winner = 'draw';
           }
 
-          // User gets points for a draw
-          if(winner === 'draw') {
-            if(users[id].bets[matchId].team === 'draw') {
-              users[id].bets[matchId].result = 'bigWin';
+          // if(users[id].name === 'E Rohit') {
+          //   console.log(users[id].bets[matchId] === undefined)
+          // }
+
+          if(users[id].bets[matchId]) {
+            if(winner === 'draw') {
+              if(users[id].bets[matchId].team === 'draw') {
+                users[id].bets[matchId].result = 'bigWin';
+              }
+              else {
+                users[id].bets[matchId].result = 'loss';
+              }
             }
+            // User gets points for the win
+            else if(users[id].bets[matchId].team === winner) {
+              users[id].bets[matchId].result = 'win';
+            }
+            // User loses points for the loss
             else {
-              users[id].bets[matchId].result = 'loss';
+              if(users[id].bets[matchId].team === 'draw') {
+                users[id].bets[matchId].result = 'bigLoss';
+              }
+              else {
+                users[id].bets[matchId].result = 'loss';
+              }
             }
           }
-          // User gets points for the win
-          else if(users[id].bets[matchId].team === winner) {
-            users[id].bets[matchId].result = 'win';
-          }
-          // User loses points for the loss
+          // If there is no selection, count as a loss
           else {
-            if(users[id].bets[matchId].team === 'draw') {
-              users[id].bets[matchId].result = 'bigLoss';
-            }
-            else {
-              users[id].bets[matchId].result = 'loss';
-            }
+            users[id].bets[matchId] = {};
+            users[id].bets[matchId].result = 'loss';
           }
-        }
+        // }
       });
     }
   });

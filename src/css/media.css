@@ -14,4 +14,14 @@
     .card-left, .card-right, .heading {
       display: none;
     }
+
+    .team-name {
+      width: 5em;
+    }
+
+    .row-2 {
+      text-align: center;
+      padding: 0.5em;
+      font-size: larger;
+    }
 }
